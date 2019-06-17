@@ -26,9 +26,17 @@ class App extends Component {
   }
 
   addSmurf = (e, smurf) => {
+    let id = this.state.smurfs.length;
+    axios
+      .post('http://localhost:3333/smurfs', {...smurf, id: id})
+      .then(res => this.setState({ smurfs: res.data }))
+      .catch(err => console.log(err));
+  }
+
+  deleteSmurf = (e, smurf) => {
     e.preventDefault();
     axios
-      .post('http://localhost:3333/smurfs', smurf)
+      .delete(`http://localhost:3333/smurfs/${smurf.id}`, smurf)
       .then(res => this.setState({ smurfs: res.data }))
       .catch(err => console.log(err));
   }
